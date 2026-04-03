@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Mariam 🎂</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #e8587a;
+    --pink-light: #fce8ee;
+    --pink-dark: #c03d61;
+    --purple: #7c5cbf;
+    --purple-light: #ede8f8;
+    --green: #2d9e6b;
+    --cream: #fdf8f3;
+    --dark: #1a1218;
+    --text: #3a2a32;
+    --muted: #8a7078;
+    --rain: #7bafd4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── RAIN BACKGROUND ── */
+  .rain-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .raindrop {
+    position: absolute;
+    top: -20px;
+    width: 1.5px;
+    background: linear-gradient(to bottom, transparent, #7bafd480);
+    border-radius: 2px;
+    animation: fall linear infinite;
+  }
+  @keyframes fall {
+    to { transform: translateY(110vh); }
+  }
+
+  /* ── LAYOUT ── */
+  .stage {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: white;
+    border-radius: 24px;
+    padding: 2.5rem 2rem 2rem;
+    max-width: 440px;
+    width: 100%;
+    box-shadow: 0 4px 40px rgba(232,88,122,0.12), 0 1px 8px rgba(0,0,0,0.06);
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--pink), var(--purple), var(--green));
+  }
+
+  /* ── SLIDES ── */
+  .slide { display: none; animation: fadeIn 0.4s ease; }
+  .slide.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  .slide-tag {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .slide-icon {
+    font-size: 52px;
+    line-height: 1;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .slide-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.25;
+    margin-bottom: 0.75rem;
+  }
+
+  .slide-title em {
+    font-style: italic;
+    color: var(--pink);
+  }
+
+  .slide-body {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--muted);
+    margin-bottom: 1.75rem;
+  }
+
+  .slide-body strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .highlight {
+    background: var(--pink-light);
+    color: var(--pink-dark);
+    font-weight: 500;
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--pink);
+    color: white;
+    border: none;
+    border-radius: 100px;
+    padding: 12px 28px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-primary:hover { background: var(--pink-dark); }
+  .btn-primary:active { transform: scale(0.97); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid #e8dde2;
+    border-radius: 100px;
+    padding: 11px 24px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-secondary:hover { background: #faf5f7; }
+
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  /* ── PROGRESS DOTS ── */
+  .dots {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #e8dde2;
+    transition: background 0.3s, width 0.3s;
+  }
+  .dot.on { background: var(--pink); width: 18px; border-radius: 3px; }
+
+  /* ── FINAL SLIDE ── */
+  .final-card {
+    background: linear-gradient(160deg, #fff8fb 0%, #f0ebff 100%);
+  }
+
+  .final-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--pink);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .love-note {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 1.75rem;
+  }
+
+  .love-note .from {
+    display: block;
+    margin-top: 1rem;
+    color: var(--muted);
+    font-size: 13px;
+    font-style: italic;
+  }
+
+  /* ── CONFETTI ── */
+  .confetti-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    overflow: hidden;
+  }
+  .confetti-piece {
+    position: absolute;
+    top: -12px;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    opacity: 0;
+  }
+  @keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    80% { opacity: 1; }
+    100% { transform: translateY(105vh) rotate(900deg); opacity: 0; }
+  }
+
+  /* ── HEARTS ── */
+  .heart-float {
+    position: fixed;
+    font-size: 20px;
+    pointer-events: none;
+    z-index: 998;
+    animation: floatUp 2.5s ease-out forwards;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-180px) scale(0.6); opacity: 0; }
+  }
+
+  /* ── SAIF BADGE ── */
+  .twin-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--purple-light);
+    color: var(--purple);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+
+  /* ── INTRO HEADER ── */
+  .intro-eyebrow {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  /* ── KARAK STEAM ── */
+  .steam {
+    display: inline-block;
+    animation: steamWave 2s ease-in-out infinite;
+    transform-origin: bottom center;
+  }
+  @keyframes steamWave {
+    0%, 100% { transform: translateY(0) skewX(0deg); }
+    50% { transform: translateY(-4px) skewX(3deg); }
+  }
+
+  /* ── RAIN TOGGLE ── */
+  .rain-toggle {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: white;
+    border: 1px solid #e8dde2;
+    border-radius: 100px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    z-index: 10;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  .rain-toggle:hover { background: #faf5f7; }
+  .rain-toggle.active { color: var(--rain); border-color: var(--rain); }
+</style>
+</head>
+<body>
+
+<div class="rain-bg" id="rainBg"></div>
+<div class="confetti-container" id="confettiContainer"></div>
+
+<div class="stage">
+  <div class="card" id="mainCard">
+
+    <!-- SLIDE 0: INTRO -->
+    <div class="slide active" id="s0">
+      <span class="slide-tag">April 4th · A message for you</span>
+      <span class="slide-icon">🎂</span>
+      <h1 class="slide-title">Hey <em>Mariam</em>,<br>we need to talk.</h1>
+      <p class="slide-body">There are certain things about you that I feel need to be addressed publicly. On your birthday. In a formal presentation.</p>
+      <div class="btn-row">
+        <button class="btn-primary" onclick="go(1)">I'm ready 😰 →</button>
+      </div>
+      <div class="dots" id="dots0"></div>
+    </div>
+
+    <!-- SLIDE 1: KARAK -->
+    <div class="slide" id="s1">
+      <span class="slide-tag">Exhibit A — the morning ritual</span>
+      <span class="slide-icon"><span class="steam">☕</span></span>
+      <h1 class="slide-title">The <em>karak</em> dependency</h1>
+      <p class="slide-body">
+        You do not function before your karak tea. You are not a morning person. You are a <span class="highlight">karak person</span> who occasionally experiences mornings.<br><br>
+        Scientists estimate your daily karak intake has <strong>surpassed recommended cardamom levels</strong> by a significant margin. They are concerned.
+      </p>
+      <div class="btn-row">
+        <button class="btn-primary" onclick="go(2)">There's more?? →</button>
+        <button class="btn-secondary" onclick="go(2)">Skip</button>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: COD -->
+    <div class="slide" id="s2">
+      <span class="slide-tag">Exhibit B — the gamer era</span>
+      <span class="slide-icon">🎮</span>
+      <h1 class="slide-title">Call of Duty<br><em>claims another victim</em></h1>
+      <p class="slide-body">
+        You play COD. Which means somewhere out there, grown men are getting absolutely <span class="highlight">destroyed by Mariam</span> and don't even know it.<br><br>
+        You probably tea-bag and feel zero guilt. This is not a criticism. This is <strong>a warning to your enemies.</strong>
+      </p>
+      <div class="btn-row">
+        <button class="btn-primary" onclick="go(3)">Continue →</button>
+        <button class="btn-secondary" onclick="go(3)">Next</button>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: MUKHAWAR + HAIR -->
+    <div class="slide" id="s3">
+      <span class="slide-tag">Exhibit C — the aesthetic</span>
+      <span class="slide-icon">✨</span>
+      <h1 class="slide-title">Mukhawar every day,<br><em>no exceptions</em></h1>
+      <p class="slide-body">
+        Mukhawar dress daily. 2b curls. You have unlocked a <span class="highlight">signature look</span> that most people spend years trying to figure out.<br><br>
+        You wake up, you put on your mukhawar, your curls do whatever they want, and you look put together anyway. This is unfair to everyone else.
+      </p>
+      <div class="btn-row">
+        <button class="btn-primary" onclick="go(4)">Keep going →</button>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: MULBERRY + ICECREAM -->
+    <div class="slide" id="s4">
+      <span class="slide-tag">Exhibit D — the food court</span>
+      <span class="slide-icon">🍧</span>
+      <h1 class="slide-title">Mulberry <em>&</em> ice cream:<br>a love story</h1>
+      <p class="slide-body">
+        Your ideal day includes mulberries and ice cream, and honestly? <span class="highlight">Correct.</span><br><br>
+        No notes. The prosecution actually agrees with you on this one. We were all wrong to question it. Mulberry ice cream is the move and you knew first.
+      </p>
+      <div class="btn-row">
+        <button class="btn-primary" onclick="go(5)">Okay but the actual message →</button>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: SAIF -->
+    <div class="slide" id="s5">
+      <span class="slide-tag">One more thing</span>
+      <span class="slide-icon">🌟</span>
+      <div class="twin-badge">🎂 Birthday twins!</div>
+      <h1 class="slide-title">You share a birthday<br>with <em>Saif</em></h1>
+      <p class="slide-body">
+        Your little nephew Saif came into the world on YOUR day. That's not a coincidence — that's the universe saying <span class="highlight">this date is special</span>.<br><br>
+        You two are birthday twins and that is genuinely one of the sweetest things. He's lucky to share it with you. 🧡
+      </p>
+      <div class="btn-row">
+        <button class="btn-primary" onclick="go(6)">Okay now the real part →</button>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: FINAL -->
+    <div class="slide" id="s6">
+      <span class="slide-tag">The real message</span>
+      <span class="final-name">Mariam,</span>
+      <p class="love-note">
+        Karak in the morning, COD at night, mukhawar always, curls doing their thing — I love every specific, particular thing about you.<br><br>
+        But more than any of that — you're someone who's <strong>always there</strong>. Not just on the good days. On the hard ones too. That kind of person is rare.<br><br>
+        I'm really glad you exist. I'm really glad it's your birthday. I hope today is as warm as you make every day feel for the people around you. 🌧️🌸
+        <span class="from">— someone who thinks you're kind of amazing</span>
+      </p>
+      <div class="btn-row">
+        <button class="btn-primary" onclick="celebrate()" style="background: var(--purple);">Celebrate! 🎉</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- RAIN TOGGLE -->
+<button class="rain-toggle" id="rainToggle" onclick="toggleRain()">🌧️ Toggle rain (for Mariam)</button>
+
+<script>
+  const TOTAL = 7;
+  let current = 0;
+  let rainOn = false;
+  let rainDrops = [];
+
+  // Build rain
+  function buildRain() {
+    const bg = document.getElementById('rainBg');
+    bg.innerHTML = '';
+    rainDrops = [];
+    for (let i = 0; i < 60; i++) {
+      const d = document.createElement('div');
+      d.className = 'raindrop';
+      const left = Math.random() * 100;
+      const dur = 0.6 + Math.random() * 0.8;
+      const delay = Math.random() * 2;
+      const h = 40 + Math.random() * 80;
+      d.style.cssText = `left:${left}%;height:${h}px;animation-duration:${dur}s;animation-delay:-${delay}s;opacity:0;transition:opacity 0.5s;`;
+      bg.appendChild(d);
+      rainDrops.push(d);
+    }
+  }
+
+  function toggleRain() {
+    rainOn = !rainOn;
+    const btn = document.getElementById('rainToggle');
+    rainDrops.forEach(d => d.style.opacity = rainOn ? (0.3 + Math.random() * 0.5) : 0);
+    btn.classList.toggle('active', rainOn);
+    btn.textContent = rainOn ? '☀️ Stop the rain' : '🌧️ Toggle rain (for Mariam)';
+  }
+
+  buildRain();
+
+  // Navigation
+  function go(n) {
+    document.getElementById('s' + current).classList.remove('active');
+    current = n;
+    document.getElementById('s' + current).classList.add('active');
+    if (n === 6) {
+      setTimeout(launchConfetti, 200);
+      document.getElementById('mainCard').classList.add('final-card');
+    }
+  }
+
+  // Dots (on first slide only)
+  function buildDots() {
+    const c = document.getElementById('dots0');
+    if (!c) return;
+    c.innerHTML = '';
+    for (let i = 0; i < TOTAL; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' on' : '');
+      c.appendChild(d);
+    }
+  }
+  buildDots();
+
+  // Confetti
+  function launchConfetti() {
+    const container = document.getElementById('confettiContainer');
+    const colors = ['#e8587a','#7c5cbf','#2d9e6b','#f0c060','#7bafd4','#ed93b1'];
+    for (let i = 0; i < 60; i++) {
+      setTimeout(() => {
+        const p = document.createElement('div');
+        p.className = 'confetti-piece';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+        p.style.borderRadius = Math.random() > 0.4 ? '50%' : '2px';
+        p.style.width = (6 + Math.random() * 6) + 'px';
+        p.style.height = (6 + Math.random() * 6) + 'px';
+        p.style.animation = `confettiFall ${1.8 + Math.random() * 1.2}s ease-in forwards`;
+        container.appendChild(p);
+        setTimeout(() => p.remove(), 3200);
+      }, i * 50);
+    }
+  }
+
+  // Celebrate button
+  function celebrate() {
+    launchConfetti();
+    const emojis = ['💗','🎂','🌧️','🍦','🎮','💜','🌸','✨'];
+    for (let i = 0; i < 16; i++) {
+      setTimeout(() => {
+        const h = document.createElement('div');
+        h.className = 'heart-float';
+        h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        h.style.left = 10 + Math.random() * 80 + '%';
+        h.style.bottom = 80 + Math.random() * 100 + 'px';
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 2600);
+      }, i * 100);
+    }
+  }
+</script>
+</body>
+</html>
